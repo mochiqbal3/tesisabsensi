@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/centerGradient"
+    tools:context=".fragment.RekapAbsensiFragment">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/head_rounded_bottom"
+            android:layout_height="70dp">
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_alignParentBottom="true"-->
+            <!--            android:textSize="14sp"-->
+            <!--            android:text="Selamat bekerja, "-->
+            <!--            android:textColor="@android:color/white"-->
+            <!--            android:layout_marginBottom="10dp"-->
+            <!--            android:layout_marginLeft="40dp"-->
+            <!--            android:id="@+id/tvHint"-->
+            <!--            android:layout_height="wrap_content" />-->
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_alignParentBottom="true"-->
+            <!--            android:textSize="14sp"-->
+            <!--            android:id="@+id/tvNama"-->
+            <!--            android:textStyle="bold"-->
+            <!--            android:layout_toRightOf="@+id/tvHint"-->
+            <!--            android:text="Selamat bekerja"-->
+            <!--            android:textColor="@android:color/white"-->
+            <!--            android:layout_marginBottom="10dp"-->
+            <!--            android:layout_height="wrap_content"/>-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="30dp"
+                android:textSize="24sp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/tvTitle"
+                android:text="Riwayat Absensi"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp" />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:id="@+id/etFrom"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_grey"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:id="@+id/etTo"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_grey"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Cari"
+                android:id="@+id/btnCari"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAccent"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/rounded_primary"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:layout_marginTop="16dp"
+            android:id="@+id/tvPlaceholder"
+            android:text="Tidak ada data ditemukan."
+            android:layout_gravity="center"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_marginTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingEnd="16dp"
+            android:id="@+id/recyclerView"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</FrameLayout>

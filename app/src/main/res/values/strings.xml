@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Tesis</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="key_auth">auth</string>
+    <string name="key_is_login">isLogin</string>
+    <string name="key_user">user</string>
+
+    <string name="string_loading">LOADING</string>
+    <string name="string_save">Simpan</string>
+    <string name="message_loading">Tunggu sebentar</string>
+    <string name="string_permission">Aplikasi ini memerlukan akses ke lokasi</string>
+    <string name="string_settings">Settings</string>
+
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_absen"
+        android:title="Absen"
+        android:icon="@drawable/logo_absen"/>
+    <item android:id="@+id/menu_rekap"
+        android:title="Riwayat"
+        android:icon="@android:drawable/ic_menu_my_calendar"/>
+    <item android:id="@+id/menu_profil"
+        android:title="Profil"
+        android:icon="@drawable/account"/>
+</menu>
