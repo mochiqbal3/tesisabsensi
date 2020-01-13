@@ -19,9 +19,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:theme">
-        <activity android:name=".PresensiActivity"
-            android:theme="@style/AppTheme"
-            android:label="Presensi"></activity>
+        <activity android:name=".MainMenuAdminActivity"
+            android:label="List Mac Address"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".PresensiActivity"
+            android:label="Presensi"
+            android:theme="@style/AppTheme" />
         <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainMenuActivity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

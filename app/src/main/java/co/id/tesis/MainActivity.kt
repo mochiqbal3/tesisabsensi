@@ -33,10 +33,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.e("macAddress", Constant.getMacAddr())
         Log.e("macAddress", Constant.getSSID(applicationContext))
-
         initEvent()
     }
-
 
 
     private fun initEvent() {
@@ -84,7 +82,8 @@ class MainActivity : AppCompatActivity() {
 //                Log.i(TAG, "User interaction was cancelled.")
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 //                MyLocation.getLocation(this,locationResult)
-                login()
+                if (validation())
+                    login()
             }
         }
     }
@@ -137,10 +136,16 @@ class MainActivity : AppCompatActivity() {
             { success ->
                 progress.dismiss()
                 sharedPref.setLogin(success, etUsername.text.toString())
-                val intent = Intent(this, MainMenuActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
-                finish()
+                if (success.data.roles == "admin"){
+                    val intent = Intent(this,MainMenuAdminActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }else{
+                    val intent = Intent(this, MainMenuActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    finish()
+                }
             }, { error ->
                 progress.dismiss()
                 ServiceInterface.handleError(error, this)

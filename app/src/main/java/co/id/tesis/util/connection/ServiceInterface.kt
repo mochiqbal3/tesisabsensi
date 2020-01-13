@@ -59,7 +59,7 @@ interface ServiceInterface {
             .writeTimeout(60, TimeUnit.SECONDS)
             .build()
 
-        var baseUrl: String = "http://192.168.1.5:8000"
+        var baseUrl: String = "http://192.168.1.26:8000"
         fun create(): ServiceInterface {
 //            if (BuildConfig.APPLICATION_ID == "co.id.tesis") {
                 val retrofit = Retrofit.Builder()
