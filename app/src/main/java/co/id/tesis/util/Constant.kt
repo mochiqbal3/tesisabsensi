@@ -1,7 +1,10 @@
 package co.id.distriboost.util
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.wifi.WifiManager
+import android.os.Build
 import androidx.core.content.ContextCompat.getSystemService
 import java.net.NetworkInterface
 import java.text.SimpleDateFormat
@@ -63,6 +66,23 @@ class Constant{
             val info = wifiManager!!.connectionInfo
             val ssid = info.bssid
             return ssid.toUpperCase()
+        }
+
+        fun checkNetworkState(context: Context): Boolean {
+            val connectivityManager =
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val nw = connectivityManager.activeNetwork ?: return false
+                val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+                return when {
+                    actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                    actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> false
+                    else -> false
+                }
+            } else {
+                val nwInfo = connectivityManager.activeNetworkInfo ?: return false
+                return nwInfo.isConnected
+            }
         }
 
 //        fun placeHolderImage(context: Context) : CircularProgressDrawable{
