@@ -4,22 +4,29 @@ import android.Manifest
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import co.id.distriboost.util.Constant
+import co.id.distriboost.util.ImageHelper
 import co.id.distriboost.util.SharedPref
 import co.id.tesis.model.ResponsePresensi
 import com.gammasolution.segarmart.util.connection.ServiceInterface
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_presensi.*
+import java.io.ByteArrayOutputStream
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,7 +40,8 @@ class PresensiActivity : AppCompatActivity() {
     var macAddress : String? = ""
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     var mLastLocation: Location? = null
-
+    val REQUEST_IMAGE_CAPTURE = 1
+    var fileName = "";
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_presensi)
@@ -67,9 +75,37 @@ class PresensiActivity : AppCompatActivity() {
                     requestPermissions()
                 }
             }else{
+                takePicture()
+            }
+        }
+    }
+
+    private fun takePicture(){
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            if(data !=null){
+                val file = data.extras!!.get("data") as Bitmap
+                fileName = applicationContext?.let { ImageHelper.saveToInternalStorage(it, file, "IMAGEUPLOADED") }!!
                 present()
             }
         }
+    }
+
+    fun convertToBase64(attachment: File): String {
+        val filePath = attachment.path
+        val baos = ByteArrayOutputStream()
+        val bitmapFile = BitmapFactory.decodeFile(filePath)
+        bitmapFile.compress(Bitmap.CompressFormat.JPEG, 50, baos)
+        val imageBytes = baos.toByteArray()
+        return "data:image/jpeg;base64,"+ Base64.encodeToString(imageBytes, Base64.DEFAULT)
     }
 
     private fun present(){
@@ -79,11 +115,13 @@ class PresensiActivity : AppCompatActivity() {
         progress.setMessage(getString(R.string.message_loading))
         progress.setCancelable(false)
         progress.show()
+        val file = ImageHelper.getImageFile(applicationContext, fileName)
         ResponsePresensi.presentToday(sharedPref.getProfile().no_induk,
             macAddress!!,
             Constant.dateToSimpleString(date, SimpleDateFormat("yyyy-MM-dd HH:mm:ss")),
             mLastLocation!!.latitude,
-            mLastLocation!!.longitude
+            mLastLocation!!.longitude,
+            convertToBase64(file)
             ).subscribe(
             { success ->
                 progress.dismiss()
@@ -107,7 +145,13 @@ class PresensiActivity : AppCompatActivity() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
 
-        return permissionState == PackageManager.PERMISSION_GRANTED
+        val permissionCamState =
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            )
+
+        return permissionState == PackageManager.PERMISSION_GRANTED && permissionCamState == PackageManager.PERMISSION_GRANTED
     }
 
 

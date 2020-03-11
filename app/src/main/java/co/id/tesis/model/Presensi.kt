@@ -37,13 +37,15 @@ class ResponsePresensi{
                          mac_address: String,
                          tanggal: String,
                          lat: Double,
-                         lng: Double) : Observable<BasicErrorModel> {
+                         lng: Double,
+                         image : String) : Observable<BasicErrorModel> {
 
             return  serviceInterface.postPresent(nip,
                     mac_address,
                     tanggal,
                     lat,
-                    lng)
+                    lng,
+                image)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
         }

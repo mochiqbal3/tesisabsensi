@@ -107,7 +107,8 @@ class HomeFragment : Fragment() {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.ACCESS_WIFI_STATE
+                Manifest.permission.ACCESS_WIFI_STATE,
+                Manifest.permission.CAMERA
             ), MainActivity.REQUEST_READ_PHONE_STATE
         )
     }
@@ -130,6 +131,9 @@ class HomeFragment : Fragment() {
             ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
                 context!!,
                 Manifest.permission.ACCESS_WIFI_STATE
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                context!!,
+                Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             return true
@@ -180,6 +184,7 @@ class HomeFragment : Fragment() {
                             absenPulang = true
                         } else {
                             isPulang = true
+                            hidePresensi()
                         }
                     }
                 }
@@ -250,30 +255,30 @@ class HomeFragment : Fragment() {
         val date = Date()
         val hour = Constant.dateToSimpleString(date, SimpleDateFormat("HH"))
         Log.e("jam", hour)
-        if ((hour.toInt() >= 6 && hour.toInt() < 9)) {
+//        if ((hour.toInt() >= 6 && hour.toInt() < 9)) {
             showPresensi()
-        } else if ((hour.toInt() >= 14 && hour.toInt() <= 23)) {
-            Log.e("dataAbsen", gson.toJson(presentToday))
-            if (presentToday.id == "") {
-                showAlert("Anda tidak absen masuk hari ini")
-            } else {
-                if (isPulang) {
-                    Log.e("masuk", "bawah")
-                    hidePresensi()
-                    showMessageSuccess("Anda sudah melakukan absensi hari ini")
-                } else
-                    showPresensi()
-            }
-        } else {
-            if (isPulang) {
-                Log.e("masuk", "bawah")
-                hidePresensi()
-                showMessageSuccess("Anda sudah melakukan absensi hari ini")
-            } else {
-                showAlert("Silahkan absen pada waktu yang telah ditentukan")
-                hidePresensi()
-            }
-        }
+//        } else if ((hour.toInt() >= 14 && hour.toInt() <= 23)) {
+//            Log.e("dataAbsen", gson.toJson(presentToday))
+//            if (presentToday.id == "") {
+//                showAlert("Anda tidak absen masuk hari ini")
+//            } else {
+//                if (isPulang) {
+//                    Log.e("masuk", "bawah")
+//                    hidePresensi()
+//                    showMessageSuccess("Anda sudah melakukan absensi hari ini")
+//                } else
+//                    showPresensi()
+//            }
+//        } else {
+//            if (isPulang) {
+//                Log.e("masuk", "bawah")
+//                hidePresensi()
+//                showMessageSuccess("Anda sudah melakukan absensi hari ini")
+//            } else {
+//                showAlert("Silahkan absen pada waktu yang telah ditentukan")
+//                hidePresensi()
+//            }
+//        }
     }
 
     fun showAlert(message: String) {

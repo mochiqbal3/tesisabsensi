@@ -44,7 +44,8 @@ interface ServiceInterface {
                     @Field("mac_address") mac_address: String,
                     @Field("tanggal") tanggal: String,
                     @Field("lat") lat: Double,
-                    @Field("lng") lng: Double): Observable<BasicErrorModel>
+                    @Field("lng") lng: Double,
+                    @Field("image") image: String): Observable<BasicErrorModel>
 
     @GET("api/router")
     fun getMacAddress(): Observable<ResponseMacAddress>
@@ -59,7 +60,7 @@ interface ServiceInterface {
             .writeTimeout(60, TimeUnit.SECONDS)
             .build()
 
-        var baseUrl: String = "http://192.168.144.16:8000"
+        var baseUrl: String = "http://192.168.1.24:8000"
         fun create(): ServiceInterface {
 //            if (BuildConfig.APPLICATION_ID == "co.id.tesis") {
                 val retrofit = Retrofit.Builder()

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.telephony.TelephonyManager
 import android.util.Log
@@ -16,6 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import co.id.distriboost.util.Constant
 import co.id.distriboost.util.SharedPref
+import co.id.distriboost.util.UniqueDeviceID.getUniqueId
 import co.id.tesis.model.Auth
 import co.id.tesis.model.MyLocation
 import com.gammasolution.segarmart.util.connection.ServiceInterface
@@ -127,10 +129,15 @@ class MainActivity : AppCompatActivity() {
         progress.setMessage(getString(R.string.message_loading))
         progress.setCancelable(false)
         progress.show()
-        val telephonyManager = this.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         var imei = ""
-        if (checkPermission()) {
-            imei = telephonyManager.deviceId
+        if(Build.VERSION.SDK_INT >= 28){
+            imei = getUniqueId()!!
+        }else {
+            if (checkPermission()) {
+                val telephonyManager =
+                    this.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+                imei = telephonyManager.deviceId
+            }
         }
         Auth.login(etUsername.text.toString(), etPassword.text.toString(), imei).subscribe(
             { success ->
